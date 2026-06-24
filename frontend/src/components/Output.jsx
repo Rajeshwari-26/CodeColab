@@ -1,16 +1,26 @@
-export default function Output({ output, isError }) {
+import { useRoom } from "../context/RoomContext";
+
+export default function Output() {
+  const { output, isError } = useRoom();
+
   return (
-    <div className="console-panel">
-      <div className="panel-header">
-        <div className="panel-title">Terminal Output</div>
-      </div>
-      <div className={`console-output ${isError ? 'has-error' : ''} ${!output ? 'is-empty' : ''}`}>
-        {output ? (
-          <pre style={{ margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>{output}</pre>
-        ) : (
-          "Terminal is empty. Run some code to see output."
-        )}
-      </div>
+    <div className="terminal-area">
+      {output ? (
+        <pre
+          style={{
+            margin: 0,
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+            color: isError ? "var(--error)" : "inherit"
+          }}
+        >
+          {output}
+        </pre>
+      ) : (
+        <div style={{ color: "var(--text-muted)" }}>
+          {"> Ready. Run code to see output..."}
+        </div>
+      )}
     </div>
   );
 }
